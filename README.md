@@ -1,1 +1,0 @@
-# ghana-fuel-price-prediction
