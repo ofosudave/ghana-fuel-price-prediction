@@ -1,0 +1,54 @@
+"STATISTICAL ANALYSIS — CORRELATIONS, REGRESSION & STATIONARITY TESTS",,,,,,,Variable,Correlation with Fuel GHS/L
+,,,,,,,Exchange Rate,0.987
+CORRELATION MATRIX WITH GHANA FUEL PRICE (GHS/L) — 1990–2024,,,,,,,Population,0.981
+Variable,Correlation with Fuel_GHS/L,Correlation with Fuel_USD/L,Interpretation,,,,Crude Oil Price,0.891
+ExchangeRate_GHS_per_USD,0.987,0.291,??? STRONGEST: Near-perfect positive correlation with GHS price,,,,GDP per Capita,0.882
+Crude_Oil_Price_USD_per_barrel,0.891,0.614,??? Very strong — global oil price drives domestic fuel,,,,Energy Use,0.688
+Population_millions,0.981,0.412,??? Very strong — population growth tracks economic expansion,,,,Inflation CPI,0.432
+GDP_per_Capita_USD,0.882,0.61,??? Strong — economic growth associated with higher prices,,,,Curr Account,-0.341
+Ghana_Inflation_CPI_pct,0.432,-0.187,"? Moderate positive for GHS (cost-push), weak for USD",,,,Net Energy Imp,0.312
+Ghana_GDP_Growth_pct,0.124,0.091,Weak — GDP growth alone doesn't predict price direction,,,,Govt Revenue,-0.039
+Current_Account_Balance_pct_GDP,-0.341,-0.198,Moderate negative — deficits correlate with higher prices,,,,GDP Growth,0.124
+Govt_Revenue_excl_grants_pct_GDP,-0.039,0.156,Very weak — revenue policy has little direct price impact,,,,,
+Energy_Use_kg_oil_eq_per_capita,0.688,0.502,?? Moderate-strong — higher energy use in developed economy,,,,,
+Net_Energy_Imports_pct_energy_use,0.312,0.287,Weak-moderate — import dependency affects price sensitivity,,,,,
+,,,,,,,,
+,,,,,,,,
+AUGMENTED DICKEY-FULLER (ADF) STATIONARITY TEST RESULTS,,,,,,,,
+Variable,ADF Statistic,p-value,Stationary?,Action for Modeling,,,,
+Fuel_GHS/L (levels),-0.83,0.81,? Non-stationary,First-difference ? d=1 in ARIMA,,,,
+Fuel_GHS/L (1st difference),-4.21,0.001,? Stationary,Use diff series for ARIMA estimation,,,,
+ExchangeRate (levels),0.21,0.97,? Non-stationary,First-difference before including in models,,,,
+ExchangeRate (1st diff),-3.87,0.003,? Stationary,Differenced exchange rate usable,,,,
+Crude Oil (levels),-1.42,0.57,? Non-stationary,First-difference required,,,,
+Crude Oil (1st diff),-4.56,0.0003,? Stationary,Differenced crude usable in ARIMAX,,,,
+Inflation CPI (levels),-2.89,0.047,? Stationary,Can use levels directly (just barely),,,,
+GDP Growth (levels),-3.44,0.009,? Stationary,Stationary — use directly,,,,
+,,,,,,,,
+,,,,,,,,
+OLS MULTIPLE LINEAR REGRESSION — Dependent Variable: ln(Fuel_GHS/L),,,,,,,,
+Model: ln(Fuel_GHS) = ?? + ??·ln(ExchRate) + ??·ln(CrudeOil) + ??·Inflation + ??·GDP_Growth + ?,,,,,,,,
+Variable,Coefficient (?),Std Error,t-statistic,p-value,Significance,,,
+Intercept (??),-8.214,0.412,-19.94,<0.0001,***,,,
+ln(ExchangeRate) ??,1.023,0.038,26.92,<0.0001,***,,,
+ln(Crude Oil Price) ??,0.487,0.071,6.86,<0.0001,***,,,
+Inflation CPI ??,0.018,0.006,3,0.0052,**,,,
+GDP Growth ??,-0.031,0.028,-1.11,0.2743,NS,,,
+,,,,,,,,
+,,,,,,,,
+Model Fit Statistics,,,,,,,,
+Metric,Value,Interpretation,,,,,,
+R-squared,0.9934,Model explains 99.3% of variance in log fuel price,,,,,,
+Adjusted R-squared,0.9925,Penalized for predictors — still excellent fit,,,,,,
+F-statistic,1082.4,p < 0.0001 — model is highly significant overall,,,,,,
+Root MSE,0.289,In log scale; ~25% error on levels,,,,,,
+Durbin-Watson,1.72,Mild autocorrelation — suggests ARIMA errors,,,,,,
+AIC,-12.4,Information criterion (lower = better),,,,,,
+BIC,-9.1,Bayesian IC (lower = better),,,,,,
+,,,,,,,,
+,,,,,,,,
+ENGLE-GRANGER COINTEGRATION TEST RESULT,,,,,,,,
+Test,Result,,,,,,,
+Fuel_GHS/L vs ExchangeRate,? Cointegrated (p=0.003) — long-run equilibrium exists,,,,,,,
+Fuel_GHS/L vs Crude Oil,? Cointegrated (p=0.021) — long-run relationship confirmed,,,,,,,
+Implication,Error Correction Model (ECM) appropriate; ARIMA with exogenous vars (ARIMAX) recommended,,,,,,,
